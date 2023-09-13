@@ -1,0 +1,14 @@
+{
+  "name": "chat-server",
+  "version": "1.0.0",
+  "description": "caht cerver backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jamy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

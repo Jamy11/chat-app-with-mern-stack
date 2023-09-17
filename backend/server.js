@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 50000;
 connectDB();
 const app = express();
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("App is running");
 });

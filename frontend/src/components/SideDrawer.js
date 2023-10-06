@@ -2,7 +2,14 @@ import { Button } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
-import { Menu, MenuButton, MenuDivider, MenuItem } from "@chakra-ui/menu";
+import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/menu";
+
 import {
   Drawer,
   DrawerBody,
@@ -17,6 +24,7 @@ import { useToast } from "@chakra-ui/toast";
 import { Spinner } from "@chakra-ui/spinner";
 import { useState } from "react";
 import { ChatState } from "../context/ChatProvider";
+import ProfileModel from "./miscellaneous/ProfileModel";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -67,6 +75,13 @@ const SideDrawer = () => {
                 src={user.pic}
               />
             </MenuButton>
+            <MenuList>
+              <ProfileModel user={user}>
+                <MenuItem> My Profile </MenuItem>
+              </ProfileModel>
+              <MenuDivider />
+              <MenuItem>Log Out</MenuItem>
+            </MenuList>
           </Menu>
         </div>
       </Box>

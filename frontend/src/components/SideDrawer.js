@@ -34,10 +34,23 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState(false);
   const navigate = useNavigate();
   const { user } = ChatState();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
     return navigate("/");
+  };
+  const handleSearch = async () => {
+    if (!search) {
+      toast({
+        title: "Please Enter something in search",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top-left",
+      });
+      return;
+    }
   };
   return (
     <>
@@ -52,10 +65,7 @@ const SideDrawer = () => {
         style={{ display: "flex" }}
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button
-            variant="ghost"
-            // onClick={onOpen}
-          >
+          <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search"></i>
             <Text d={{ base: "none", md: "flex" }} px={4}>
               Search User
@@ -91,6 +101,23 @@ const SideDrawer = () => {
           </Menu>
         </div>
       </Box>
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader borderBottomWidth={"1px"}>Search User</DrawerHeader>
+          <DrawerBody>
+            <Box d="flex" pb={2}>
+              <Input
+                placeholder="Search by name or email"
+                mr={2}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button onClick={handleSearch}>Go</Button>
+            </Box>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };

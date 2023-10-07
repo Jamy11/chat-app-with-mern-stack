@@ -25,14 +25,20 @@ import { Spinner } from "@chakra-ui/spinner";
 import { useState } from "react";
 import { ChatState } from "../context/ChatProvider";
 import ProfileModel from "./miscellaneous/ProfileModel";
+import { useNavigate } from "react-router-dom";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
-
+  const navigate = useNavigate();
   const { user } = ChatState();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    return navigate("/");
+  };
   return (
     <>
       <Box
@@ -80,7 +86,7 @@ const SideDrawer = () => {
                 <MenuItem> My Profile </MenuItem>
               </ProfileModel>
               <MenuDivider />
-              <MenuItem>Log Out</MenuItem>
+              <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
             </MenuList>
           </Menu>
         </div>

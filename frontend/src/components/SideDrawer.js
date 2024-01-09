@@ -26,6 +26,8 @@ import { useState } from "react";
 import { ChatState } from "../context/ChatProvider";
 import ProfileModel from "./miscellaneous/ProfileModel";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import ChatLoading from "./ChatLoading";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -50,6 +52,26 @@ const SideDrawer = () => {
         position: "top-left",
       });
       return;
+    }
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const data = await axios.get(`/api/user/?search=${search}`, config);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
     }
   };
   return (
@@ -115,6 +137,7 @@ const SideDrawer = () => {
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>
+            {loading ? <ChatLoading /> : <>Hello</>}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

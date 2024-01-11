@@ -40,7 +40,7 @@ const MyChats = ({ fetchAgain }) => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
 
     fetchChats();
-  }, [fetchAgain]);
+  }, [fetchAgain, loggedUser?.email]);
   return (
     <Box
       d={{ base: selectedChat ? "none" : "flex", md: "flex" }}

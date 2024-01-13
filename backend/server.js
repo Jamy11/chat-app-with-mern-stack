@@ -32,8 +32,10 @@ const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:3000",
+    // credentials: true,
   },
 });
+
 io.on("connection", (socket) => {
-  console.log("Connected");
+  console.log("Connected to socket.io");
 });

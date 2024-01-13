@@ -2,7 +2,6 @@ import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -11,6 +10,10 @@ import ProfileModel from "./miscellaneous/ProfileModel";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import ScrollableChat from "./UserAvatar/ScrollableChat";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:50000";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -59,6 +62,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     // selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+  }, []);
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {

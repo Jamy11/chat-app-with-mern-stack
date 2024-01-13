@@ -8,20 +8,20 @@ const sendMessage = asyncHandler(async (req, res) => {
 
   if (!content || !chatId) {
     console.log("Invalid data passed into request");
-    return res.sendStatus(400);
+    return res.status(400).json({ error: "Invalid data passed into request" });
   }
 
-  var newMessage = {
+  const newMessage = {
     sender: req.user._id,
-    content: content,
+    content,
     chat: chatId,
   };
 
   try {
-    var message = await Message.create(newMessage);
+    let message = await Message.create(newMessage);
 
-    message = await message.populate("sender", "name pic").execPopulate();
-    message = await message.populate("chat").execPopulate();
+    message = await message.populate("sender", "name pic");
+    message = await message.populate("chat");
     message = await User.populate(message, {
       path: "chat.users",
       select: "name pic email",
@@ -31,8 +31,8 @@ const sendMessage = asyncHandler(async (req, res) => {
 
     res.json(message);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    console.error("Error creating message:", error.message);
+    res.status(500).json({ error: "Failed to create the message" });
   }
 });
 
